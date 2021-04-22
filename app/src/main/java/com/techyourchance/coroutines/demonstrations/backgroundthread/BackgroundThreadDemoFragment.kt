@@ -43,18 +43,28 @@ class BackgroundThreadDemoFragment : BaseFragment() {
 
         updateRemainingTime(benchmarkDurationSeconds)
 
+        // Creating a New thread to execute this task
+        // If not, the UI thread will be block
+        // Until this task gets done
         Thread {
             logThreadInfo("benchmark started")
 
             val stopTimeNano = System.nanoTime() + benchmarkDurationSeconds * 1_000_000_000L
 
             var iterationsCount: Long = 0
+
+            //stopTimeNano = 20420908585213
+            //System.nanoTime() = 20595590635505
+            //This makes aprox 135367759 iterations while the
+            // fun updateRemainingTime (counting from 5-1) is running as well
             while (System.nanoTime() < stopTimeNano) {
                 iterationsCount++
             }
 
             logThreadInfo("benchmark completed")
 
+            //Handler is used to make the Toast run in the UI thread
+            //Even though it is running inside another thread
             Handler(Looper.getMainLooper()).post {
                 Toast.makeText(requireContext(), "$iterationsCount", Toast.LENGTH_SHORT).show()
             }
@@ -68,9 +78,13 @@ class BackgroundThreadDemoFragment : BaseFragment() {
 
         if (remainingTimeSeconds > 0) {
             txtRemainingTime.text = "$remainingTimeSeconds seconds remaining"
+
+            // This handler is executed in the Main UI thread
+            //Will print the seconds counting down in the screens
             Handler(Looper.getMainLooper()).postDelayed({
                 updateRemainingTime(remainingTimeSeconds - 1)
             }, 1000)
+
         } else {
             txtRemainingTime.text = "done!"
         }
