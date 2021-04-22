@@ -39,7 +39,10 @@ class BasicCoroutinesDemoFragment : BaseFragment() {
 
             coroutineScope.launch {
                 btnStart.isEnabled = false
+
                 val iterationsCount = executeBenchmark()
+	            // This Toast will be execute after the iterationsCount gets a result from the
+                // suspend function from executeBenchmark
                 Toast.makeText(requireContext(), "$iterationsCount", Toast.LENGTH_SHORT).show()
                 btnStart.isEnabled = true
             }
@@ -54,6 +57,8 @@ class BasicCoroutinesDemoFragment : BaseFragment() {
 
         updateRemainingTime(benchmarkDurationSeconds)
 
+
+        // Running from a back ground thread
         return withContext(Dispatchers.Default) {
             logThreadInfo("benchmark started")
 
