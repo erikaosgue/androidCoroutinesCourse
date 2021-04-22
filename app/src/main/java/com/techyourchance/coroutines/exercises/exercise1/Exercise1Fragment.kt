@@ -14,8 +14,14 @@ import com.techyourchance.coroutines.R
 import com.techyourchance.coroutines.common.BaseFragment
 import com.techyourchance.coroutines.common.ThreadInfoLogger
 import com.techyourchance.coroutines.home.ScreenReachableFromHome
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class Exercise1Fragment : BaseFragment() {
+
+    private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
 
     override val screenTitle get() = ScreenReachableFromHome.EXERCISE_1.description
 
@@ -46,20 +52,27 @@ class Exercise1Fragment : BaseFragment() {
         btnGetReputation = view.findViewById(R.id.btn_get_reputation)
         btnGetReputation.setOnClickListener {
             logThreadInfo("button callback")
-            btnGetReputation.isEnabled = false
-            getReputationForUser(edtUserId.text.toString())
-            btnGetReputation.isEnabled = true
+
+            // Add the Coroutine that still will be in the main thread
+            coroutineScope.launch {
+                btnGetReputation.isEnabled = false
+                val reputation = getReputationForUser(edtUserId.text.toString())
+                Toast.makeText(requireContext(), "reputation: $reputation", Toast.LENGTH_SHORT).show()
+                btnGetReputation.isEnabled = true
+            }
         }
 
         return view
     }
 
-    private fun getReputationForUser(userId: String) {
+    private suspend fun getReputationForUser(userId: String): Int {
         logThreadInfo("getReputationForUser()")
 
-        val reputation = getReputationEndpoint.getReputation(userId)
-
-        Toast.makeText(requireContext(), "reputation: $reputation", Toast.LENGTH_SHORT).show()
+        // This withContext will in a background thread
+        // and will return an Integer from a "Fake Request"
+        return withContext(Dispatchers.Default){
+            getReputationEndpoint.getReputation(userId)
+        }
     }
 
     private fun logThreadInfo(message: String) {
