@@ -13,10 +13,7 @@ import com.techyourchance.coroutines.common.BaseFragment
 import com.techyourchance.coroutines.common.ThreadInfoLogger
 import com.techyourchance.coroutines.exercises.exercise1.GetReputationEndpoint
 import com.techyourchance.coroutines.home.ScreenReachableFromHome
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 
 class Exercise2Fragment : BaseFragment() {
 
@@ -28,6 +25,9 @@ class Exercise2Fragment : BaseFragment() {
     private lateinit var btnGetReputation: Button
 
     private lateinit var getReputationEndpoint: GetReputationEndpoint
+
+    // Create a job variable to later cancel the job if necessary
+    private var job: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -51,7 +51,8 @@ class Exercise2Fragment : BaseFragment() {
         btnGetReputation = view.findViewById(R.id.btn_get_reputation)
         btnGetReputation.setOnClickListener {
             logThreadInfo("button callback")
-            coroutineScope.launch {
+
+            job = coroutineScope.launch {
                 btnGetReputation.isEnabled = false
                 val reputation = getReputationForUser(edtUserId.text.toString())
                 Toast.makeText(requireContext(), "reputation: $reputation", Toast.LENGTH_SHORT).show()
@@ -60,6 +61,14 @@ class Exercise2Fragment : BaseFragment() {
         }
 
         return view
+    }
+
+	// use onStop to cancel a coroutine
+    override fun onStop() {
+        super.onStop()
+        job?.cancel()
+        btnGetReputation.isEnabled = true
+
     }
 
     private suspend fun getReputationForUser(userId: String): Int {
