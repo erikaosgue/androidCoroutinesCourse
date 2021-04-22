@@ -41,12 +41,15 @@ class UiThreadDemoFragment : BaseFragment() {
     private fun executeBenchmark() {
         val benchmarkDurationSeconds = 5
 
+        // Here1
         updateRemainingTime(benchmarkDurationSeconds)
 
+        //here2
         logThreadInfo("benchmark started")
 
         val stopTimeNano = System.nanoTime() + benchmarkDurationSeconds * 1_000_000_000L
 
+        //here 3
         var iterationsCount: Long = 0
         while (System.nanoTime() < stopTimeNano) {
             iterationsCount++
@@ -54,12 +57,21 @@ class UiThreadDemoFragment : BaseFragment() {
 
         logThreadInfo("benchmark completed")
 
+
+        // Print out the number of iterations
         Toast.makeText(requireContext(), "$iterationsCount", Toast.LENGTH_SHORT).show()
     }
 
+
+
+    // This is a recursive function
     private fun updateRemainingTime(remainingTimeSeconds: Int) {
         logThreadInfo("updateRemainingTime: $remainingTimeSeconds seconds")
 
+        // Here continue 1 but then because of the delayed the space will be assign to the
+        // benchmark, and after that finishes it will continue here
+        // Here 1 and after the delayed
+        // Here 4
         if (remainingTimeSeconds > 0) {
             txtRemainingTime.text = "$remainingTimeSeconds seconds remaining"
             Handler(Looper.getMainLooper()).postDelayed({
