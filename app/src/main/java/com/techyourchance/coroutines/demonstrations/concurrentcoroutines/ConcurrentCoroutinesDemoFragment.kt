@@ -14,6 +14,7 @@ import com.techyourchance.coroutines.common.ThreadInfoLogger
 import com.techyourchance.coroutines.home.ScreenReachableFromHome
 import kotlinx.coroutines.*
 
+//video 14
 class ConcurrentCoroutinesDemoFragment : BaseFragment() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
@@ -37,10 +38,15 @@ class ConcurrentCoroutinesDemoFragment : BaseFragment() {
 
             val benchmarkDurationSeconds = 5
 
+
+            // Creating another coroutine to run concurrently the
+            // updateRemainingTime and the Benchmark
             jobCounter = coroutineScope.launch {
                 updateRemainingTime(benchmarkDurationSeconds)
+                println("result: update remaining coroutine")
             }
 
+            // This coroutine or "Job is running on the Main thread
             job = coroutineScope.launch {
                 btnStart.isEnabled = false
                 val iterationsCount = executeBenchmark(benchmarkDurationSeconds)
@@ -57,6 +63,9 @@ class ConcurrentCoroutinesDemoFragment : BaseFragment() {
         super.onStop()
         job?.cancel()
         btnStart.isEnabled = true
+
+        // If jobCounter Has ever been started or Launch, the apply
+        // cancel and show done!
         jobCounter?.apply {
             cancel()
             txtRemainingTime.text = "done!"

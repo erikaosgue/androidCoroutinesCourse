@@ -15,6 +15,7 @@ import com.techyourchance.coroutines.common.BaseFragment
 import com.techyourchance.coroutines.common.ThreadInfoLogger
 import com.techyourchance.coroutines.home.ScreenReachableFromHome
 
+//video 6
 class BackgroundThreadDemoFragment : BaseFragment() {
 
     override val screenTitle get() = ScreenReachableFromHome.BACKGROUND_THREAD_DEMO.description

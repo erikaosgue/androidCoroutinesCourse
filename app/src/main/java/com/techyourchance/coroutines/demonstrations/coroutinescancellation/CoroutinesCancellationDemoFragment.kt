@@ -16,6 +16,7 @@ import com.techyourchance.coroutines.common.ThreadInfoLogger
 import com.techyourchance.coroutines.home.ScreenReachableFromHome
 import kotlinx.coroutines.*
 
+//video 11
 class CoroutinesCancellationDemoFragment : BaseFragment() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)
@@ -76,6 +77,7 @@ class CoroutinesCancellationDemoFragment : BaseFragment() {
         }
     }
 
+    // This fragment will still be running after the coroutine job gets cancel
     private fun updateRemainingTime(remainingTimeSeconds: Int) {
         logThreadInfo("updateRemainingTime: $remainingTimeSeconds seconds")
 

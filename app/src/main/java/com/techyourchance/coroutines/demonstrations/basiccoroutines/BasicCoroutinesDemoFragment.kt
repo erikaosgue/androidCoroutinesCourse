@@ -19,6 +19,7 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
+// video 7
 class BasicCoroutinesDemoFragment : BaseFragment() {
 
     private val coroutineScope = CoroutineScope(Dispatchers.Main.immediate)

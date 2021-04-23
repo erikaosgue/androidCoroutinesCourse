@@ -51,4 +51,6 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:2.2.0"
 
     testImplementation "junit:junit:4.13"
+    implementation 'com.android.volley:volley:1.2.0'
+
 }
