@@ -66,6 +66,8 @@ class Exercise2Fragment : BaseFragment() {
 	// use onStop to cancel a coroutine
     override fun onStop() {
         super.onStop()
+
+		//Using a Job cancellation will cancel the coroutine
         job?.cancel()
         btnGetReputation.isEnabled = true
 
