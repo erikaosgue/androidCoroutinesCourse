@@ -34,6 +34,7 @@ class ViewModelDemoFragment : BaseFragment() {
         txtElapsedTime = view.findViewById(R.id.txt_elapsed_time)
         btnTrackTime = view.findViewById(R.id.btn_track_time)
 
+        // Clicks in the button to STOP or to START the count time
         btnTrackTime.setOnClickListener {
             logThreadInfo("button callback")
             myViewModel.toggleTrackElapsedTime()
@@ -53,6 +54,7 @@ class ViewModelDemoFragment : BaseFragment() {
     override fun onStop() {
         logThreadInfo("onStop()")
         super.onStop()
+        myViewModel.onStop()
     }
 
     private fun logThreadInfo(message: String) {

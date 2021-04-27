@@ -38,11 +38,22 @@ class MyViewModel: ViewModel() {
         }
     }
 
+    // here stopTracking cancels the coroutine
     private fun stopTracking() {
         logThreadInfo("stopTracking()")
         _isTrackingTime.postValue(false)
         viewModelScope.coroutineContext.cancelChildren()
     }
+
+    // This is only use when not using the library lifecycle extension
+    /*override fun onCleared() {
+        super.onCleared()
+        viewModelScope.coroutineContext.cancelChildren()
+    }*/
+    fun onStop() {
+        viewModelScope.coroutineContext.cancelChildren()
+    }
+
 
     private fun logThreadInfo(message: String) {
         ThreadInfoLogger.logThreadInfo(message)
