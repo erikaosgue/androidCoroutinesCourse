@@ -1,6 +1,7 @@
 package com.techyourchance.coroutines.demonstrations.concurrentcoroutines
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -8,11 +9,14 @@ import android.widget.Button
 import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import com.android.volley.toolbox.JsonArrayRequest
+import com.android.volley.toolbox.Volley
 import com.techyourchance.coroutines.R
 import com.techyourchance.coroutines.common.BaseFragment
 import com.techyourchance.coroutines.common.ThreadInfoLogger
 import com.techyourchance.coroutines.home.ScreenReachableFromHome
 import kotlinx.coroutines.*
+import org.json.JSONException
 
 //video 14
 class ConcurrentCoroutinesDemoFragment : BaseFragment() {
@@ -98,6 +102,34 @@ class ConcurrentCoroutinesDemoFragment : BaseFragment() {
             }
         }
     }
+
+/*    private fun requestFun() {
+
+        val requestQueue = Volley.newRequestQueue(context)
+
+        val url = "https://pastebin.com/raw/Em972E5s"
+
+        val jsonArray = JsonArrayRequest(url,
+            { response ->
+                try {
+                    for (i in 0 until response.length()) {
+                        val myObject = response.getJSONObject(i)
+
+                        val firstName = myObject.getString("firstname")
+
+                        Log.d("object ${i+1} is:", "$myObject")
+                        Log.d("Firstname is:", firstName)
+                    }
+
+                }catch (e: JSONException) {e.printStackTrace()}
+            },
+            { error ->
+                    Log.d("Error is:", error.toString())
+            })
+
+        requestQueue?.add(jsonArray)
+
+    }*/
 
     private fun logThreadInfo(message: String) {
         ThreadInfoLogger.logThreadInfo(message)

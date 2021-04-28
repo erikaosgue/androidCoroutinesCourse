@@ -20,6 +20,7 @@ class FibonacciUseCaseAsyncUiThreadPoster {
     private final BackgroundThreadPoster mBackgroundThreadPoster;
     private final UiThreadPoster mUiThreadPoster;
 
+    // This is a constructor that will be injected from the client
     FibonacciUseCaseAsyncUiThreadPoster(BackgroundThreadPoster backgroundThreadPoster, UiThreadPoster uiThreadPoster) {
         mBackgroundThreadPoster = backgroundThreadPoster;
         mUiThreadPoster = uiThreadPoster;

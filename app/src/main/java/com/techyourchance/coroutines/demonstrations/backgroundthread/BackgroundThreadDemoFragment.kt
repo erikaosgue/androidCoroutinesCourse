@@ -101,4 +101,5 @@ class BackgroundThreadDemoFragment : BaseFragment() {
             return BackgroundThreadDemoFragment()
         }
     }
+
 }

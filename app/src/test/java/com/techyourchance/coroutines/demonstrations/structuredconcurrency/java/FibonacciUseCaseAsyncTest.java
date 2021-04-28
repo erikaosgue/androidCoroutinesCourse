@@ -20,6 +20,7 @@ public class FibonacciUseCaseAsyncTest {
         mCallback = new FibonacciUseCaseAsync.Callback() {
             @Override
             public void onFibonacciComputed(BigInteger result) {
+
                 lastResult = result;
             }
         };
@@ -65,5 +66,6 @@ public class FibonacciUseCaseAsyncTest {
         // Assert
         assertThat(lastResult, is(new BigInteger("832040")));
     }
+
 
 }

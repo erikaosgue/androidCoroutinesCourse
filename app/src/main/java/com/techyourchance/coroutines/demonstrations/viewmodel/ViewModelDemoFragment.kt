@@ -40,6 +40,8 @@ class ViewModelDemoFragment : BaseFragment() {
             myViewModel.toggleTrackElapsedTime()
         }
 
+        // If there is any change in the Data of myViewModel.elapsedTime the observe will be call
+//        elapsedTime is of Type LiveData class
         myViewModel.elapsedTime.observe(viewLifecycleOwner, Observer { elapsedTime ->
             txtElapsedTime.text = elapsedTime.toString()
         })

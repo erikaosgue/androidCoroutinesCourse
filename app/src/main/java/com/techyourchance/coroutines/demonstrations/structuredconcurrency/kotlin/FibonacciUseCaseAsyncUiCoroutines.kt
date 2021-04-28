@@ -3,6 +3,8 @@ package com.techyourchance.coroutines.demonstrations.structuredconcurrency.kotli
 import kotlinx.coroutines.*
 import java.math.BigInteger
 
+// In production the bgDispatcher have to be injected with the background Dispatcher
+// While in testing we can inject the TestCoroutineDispatcher
 internal class FibonacciUseCaseAsyncUiCoroutines(private val bgDispatcher: CoroutineDispatcher) {
 
     interface Callback {
@@ -18,13 +20,16 @@ internal class FibonacciUseCaseAsyncUiCoroutines(private val bgDispatcher: Corou
         }
     }
 
-    private suspend fun computeFibonacciBg(index: Int): BigInteger = withContext(bgDispatcher) {
-        if (index == 0) {
-            BigInteger("0")
-        } else if (index == 1) {
-            BigInteger("1")
-        } else {
-            computeFibonacciBg(index - 1).add(computeFibonacciBg(index - 2))
+    private suspend fun computeFibonacciBg(index: Int): BigInteger
+    {
+        return withContext(bgDispatcher) {
+            if (index == 0) {
+                BigInteger("0")
+            } else if (index == 1) {
+                BigInteger("1")
+            } else {
+                computeFibonacciBg(index - 1).add(computeFibonacciBg(index - 2))
+            }
         }
     }
 

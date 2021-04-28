@@ -32,6 +32,10 @@ class FibonacciUseCaseAsyncUiCoroutinesTest {
                 lastResult = result
             }
         }
+        // Here we are injecting the TestCoroutineDispatcher to have the same ancestor
+        // so we can have structured concurrency for testing, this is necessary because in the code
+        // We use Dispatcher.Default and combining testCoroutineDispatcher we will run in
+        // issues for testing
         SUT = FibonacciUseCaseAsyncUiCoroutines(testCoroutineDispatcher)
     }
 

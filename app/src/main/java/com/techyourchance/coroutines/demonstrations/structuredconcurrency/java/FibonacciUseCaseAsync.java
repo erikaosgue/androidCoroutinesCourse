@@ -30,4 +30,5 @@ class FibonacciUseCaseAsync {
             return computeFibonacciBg(index - 1).add(computeFibonacciBg(index - 2));
         }
     }
+
 }
