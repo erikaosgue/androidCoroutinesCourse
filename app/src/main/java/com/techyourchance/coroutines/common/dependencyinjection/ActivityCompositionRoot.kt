@@ -56,6 +56,7 @@ class ActivityCompositionRoot(
 
     private val userStateManager get() = UserStateManager()
 
+    // Comes from the exercise 1
     val getReputationEndpoint get() = GetReputationEndpoint()
 
     val factorialUseCase get() = FactorialUseCase()
@@ -70,6 +71,7 @@ class ActivityCompositionRoot(
 
     val exercise6SolutionBenchmarkUseCase get() = Exercise6SolutionBenchmarkUseCase(postBenchmarkResultsEndpoint)
 
+    // Comes from exercise 5
     val getReputationUseCase get() = GetReputationUseCase(getReputationEndpoint)
 
     val makeCustomerPremiumUseCase get() = MakeCustomerPremiumUseCase(premiumCustomersEndpoint, customersDao)
