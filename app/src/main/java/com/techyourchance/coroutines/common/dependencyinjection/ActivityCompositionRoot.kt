@@ -8,6 +8,7 @@ import com.techyourchance.coroutines.common.ToolbarDelegate
 import com.techyourchance.coroutines.demonstrations.design.BenchmarkUseCase
 import com.techyourchance.coroutines.exercises.exercise1.GetReputationEndpoint
 import com.techyourchance.coroutines.exercises.exercise4.FactorialUseCase
+import com.techyourchance.coroutines.exercises.exercise5.GetReputationUseCase
 
 class ActivityCompositionRoot(
         private val activity: FragmentActivity,
@@ -24,10 +25,13 @@ class ActivityCompositionRoot(
 
     private val fragmentManager get() = activity.supportFragmentManager
 
-    val getReputationEndpoint get() = GetReputationEndpoint()
+    private val getReputationEndpoint get() = GetReputationEndpoint()
 
     val factorialUseCase get() = FactorialUseCase()
 
     val benchmarkUseCase get() = BenchmarkUseCase()
+
+    val getReputationUseCase get() = GetReputationUseCase(getReputationEndpoint)
+
 
 }

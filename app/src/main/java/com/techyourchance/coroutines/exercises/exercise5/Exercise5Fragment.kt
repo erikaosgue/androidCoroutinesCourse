@@ -22,18 +22,21 @@ class Exercise5Fragment : BaseFragment() {
 
     override val screenTitle get() = ScreenReachableFromHome.EXERCISE_5.description
 
+    // Call the UseCase Class that manages multithreading
+    private lateinit var getReputationUseCase: GetReputationUseCase
+
+
     private lateinit var edtUserId: EditText
     private lateinit var btnGetReputation: Button
     private lateinit var txtElapsedTime: TextView
 
 
-    private lateinit var getReputationEndpoint: GetReputationEndpoint
-
     private var job: Job? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        getReputationEndpoint = compositionRoot.getReputationEndpoint
+        getReputationUseCase = compositionRoot.getReputationUseCase
+
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
@@ -57,7 +60,7 @@ class Exercise5Fragment : BaseFragment() {
             logThreadInfo("button callback")
             job = coroutineScope.launch {
                 btnGetReputation.isEnabled = false
-                val reputation = getReputationForUser(edtUserId.text.toString())
+                val reputation = getReputationUseCase.getReputationForUser(edtUserId.text.toString())
                 Toast.makeText(requireContext(), "reputation: $reputation", Toast.LENGTH_SHORT).show()
                 btnGetReputation.isEnabled = true
             }
@@ -72,12 +75,7 @@ class Exercise5Fragment : BaseFragment() {
         btnGetReputation.isEnabled = true
     }
 
-    private suspend fun getReputationForUser(userId: String): Int {
-        return withContext(Dispatchers.Default) {
-            logThreadInfo("getReputationForUser()")
-            getReputationEndpoint.getReputation(userId)
-        }
-    }
+
 
     private fun logThreadInfo(message: String) {
         ThreadInfoLogger.logThreadInfo(message)
