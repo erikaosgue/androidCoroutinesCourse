@@ -1,6 +1,8 @@
 package com.techyourchance.coroutines.exercises.exercise8
 
 import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.ensureActive
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class FetchAndCacheUsersUseCase(
@@ -8,10 +10,14 @@ class FetchAndCacheUsersUseCase(
         private val usersDao: UsersDao
 ) {
 
-    suspend fun fetchAndCacheUsers(userIds: List<String>) = withContext(Dispatchers.Default) {
+    suspend fun fetchAndCacheUsers(userIds: List<String>) = withContext(Dispatchers.Default)
+    {
         for (userId in userIds) {
-            val user = getUserEndpoint.getUser(userId)
-            usersDao.upsertUserInfo(user)
+            coroutineContext.ensureActive()
+            launch {
+                val user = getUserEndpoint.getUser(userId)
+                usersDao.upsertUserInfo(user)
+            }
         }
     }
 
