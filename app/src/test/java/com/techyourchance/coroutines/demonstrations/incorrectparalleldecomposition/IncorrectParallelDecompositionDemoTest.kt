@@ -37,6 +37,4 @@ class IncorrectParallelDecompositionDemoTest {
         }
         println("total iterations: $totalIterations")
     }
-
-
 }
