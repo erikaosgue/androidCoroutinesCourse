@@ -13,6 +13,8 @@ class FetchAndCacheUsersUseCaseExercise9(
         private val usersDao: UsersDao
 ) {
 
+
+
     suspend fun fetchAndCacheUsers2(userIds: List<String>):List<User>{
         return withContext(Dispatchers.Default) {
 
@@ -34,7 +36,6 @@ class FetchAndCacheUsersUseCaseExercise9(
             listUsers
         }
     }
-
 
     suspend fun fetchAndCacheUsers(userIds: List<String>):List<User>{
         return withContext(Dispatchers.Default) {
