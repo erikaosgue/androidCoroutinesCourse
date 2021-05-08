@@ -46,11 +46,13 @@ class Exercise7SolutionTest {
                     println("coroutine cancelled")
                 }
             }
-
-            launch {
+            val job2 = launch(CoroutineName("Daniela")) {
                 delay(2500)
-                scope.cancel()
+//                scope.cancel()
             }
+            val jobBlocker = this.coroutineContext[Job]!!
+            printJobsHierarchy(jobBlocker)
+
             job.join()
             println("test done")
         }

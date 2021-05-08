@@ -35,6 +35,7 @@ class CoroutinesMechanicsExplorationsTest {
             scope.printCoroutineScopeInfo()
             val job = scope.launch(CoroutineName("my coroutine") + Dispatchers.Default) {
                 this.printCoroutineScopeInfo()
+                printJobsHierarchy(scopeJob)
                 delay(100)
                 println("coroutine done")
             }
@@ -46,12 +47,17 @@ class CoroutinesMechanicsExplorationsTest {
     @Test
     fun coroutineScope_withContext() {
         runBlocking {
-            val scopeJob = Job()
+            val scopeJob = Job() // Padre
+
             val scope = CoroutineScope(scopeJob + CoroutineName("outer scope") + Dispatchers.IO)
+
             scope.printCoroutineScopeInfo()
+
+            // Child
             val job = scope.launch(CoroutineName("my coroutine") + Dispatchers.Default) {
                 this.printCoroutineScopeInfo()
                 delay(100)
+
                 withContext(CoroutineName("withContext") + Dispatchers.IO) {
                     this.printCoroutineScopeInfo()
                     delay(100)
